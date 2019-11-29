@@ -25,11 +25,11 @@ class Home extends CI_Controller
 		if($this->user->loggedin && isset($this->user->info->user_role_id) &&
            ($this->user->info->admin)) {
 
-           	redirect(site_url('/hideend/verifikasi/status/'),'refresh');
+           	redirect(site_url('/hideend/instansi/lists/'),'refresh');
 			// $this->admin();
 		}else{
 
-           	redirect(site_url('/hideend/pengajuan/status'),'refresh');
+           	redirect(site_url('/hideend/instansi/lists'),'refresh');
 			// $this->memberpage();;			
 		}
 	}

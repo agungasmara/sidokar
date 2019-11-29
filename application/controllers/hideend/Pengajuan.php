@@ -44,7 +44,7 @@ class Pengajuan extends CI_Controller
 			$vueComponent.
 			'<script src="'.$this->common->theme_hideend().'plugins/js/appPengajuanPSP.js"></script>'
 			);
-		$this->template->loadContent("hidepage/pengajuan/index.php", array(
+		    $this->template->loadContent("hidepage/pengajuan/index.php", array(
 				"idPengajuan" => $idPengajuan
 			)
 		);

@@ -741,9 +741,6 @@ Vue.component('table-status-pengajuan-pspbmn', {
                  }
 
             },
-            computed(){
-
-            },
             created(){
                 this.showAll()
             },

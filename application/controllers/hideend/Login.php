@@ -19,6 +19,8 @@ class Login extends CI_Controller
 
 	public function index()
 	{
+	
+
 		$this->template->set_page_title("Login");
 		$this->template->set_error_view("/hidepage/error/login_error.php");
 		$this->template->set_layout("/hidepage/layout/login_layout.php");

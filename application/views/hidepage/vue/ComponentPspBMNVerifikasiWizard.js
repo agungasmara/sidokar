@@ -1554,9 +1554,9 @@
                                 <thead class="text-white bg-dark">
                                     <th class="text-white">ID</th>
                                     <th class="text-white">No Surat</th>
-                                    <th class="text-white">Tanggal Create</th>
-                                    <th class="text-white">Kementrian Lembaga</th>
-                                    <th class="text-white">Status Pengajuan</th>
+                                    <th class="text-white">Tanggal & Jam Input</th>
+                                    <th class="text-white">Nama Satker</th>
+                                    <th class="text-white">Nama Verifikator</th>
                                     <th class="text-white">Hasil Verifikasi</th>
                                     <th class="text-white">Action</th>
                                 </thead>
@@ -1566,8 +1566,8 @@
                                         <td v-if="data.noSurat_pemohon===''">Not Set</td>
                                         <td v-else>{{data.noSurat_pemohon}}</td> 
                                         <td>{{data.submitdate}}</td> 
-                                        <td>{{data.kementerian_lembaga}}</td>
-                                        <td>{{data.status_pengajuan}} 
+                                        <td>{{data.satuan_kerja}}</td>
+                                        <td>{{data.nama_petugas}} 
                                         </td>
                                         <td>
                                             <div v-if="data.hasil_verifikasi!==null">
@@ -1613,7 +1613,7 @@
                                                     @click=
                                                         "selectPengajuan(data);getDataChoosePengajuan();selectJenisForm(data.hasil_verifikasi);getJenisForm();showHasilVerifikasi()">
 
-                                                Cek Hasil
+                                                Upload Dok
                                             </button>
 
                                             

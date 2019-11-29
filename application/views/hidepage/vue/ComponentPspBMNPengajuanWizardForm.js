@@ -80,7 +80,7 @@
                                                 <span class="text-red">{{ errors.first('step1.KementerianLembaga') }}</span>
 
                                             </div>
-                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1" class="col-sm-2 control-label">Nama Satker</label>
                                             <div class="col-sm-5">

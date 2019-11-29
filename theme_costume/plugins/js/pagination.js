@@ -8,12 +8,9 @@ Vue.component('pagination',{
       <li class="page-item" v-if="firstPage">
 <a class="page-link" @click="updatePage(0)" href="javascript:void(0)">1</a>
 </li>
-<li class="page-item page-link text-dark px-3 fa fa-ellipsis-h"  v-if="firstPage"></li>
     <li class="page-item" :class="{'active': current_page == page}"v-for="page in pages">
 <a class="page-link" @click="updatePage(page)" href="javascript:void(0)">{{page + 1}}</a>
 </li>
-<li class="page-item page-link text-dark px-3 fa fa-ellipsis-h"  v-if="lastPage"></li>
-      <li class="page-item" v-if="lastPage">
 <a class="page-link" @click="updatePage(totalPages - 1)" href="javascript:void(0)">{{totalPages}}</a>
 </li>
     <li @click="updatePage(next)" class="page-item">

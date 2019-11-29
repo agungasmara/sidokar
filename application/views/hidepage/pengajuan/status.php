@@ -31,7 +31,7 @@
                     <div class="box box-info">
                         <div class="box-header">
                             <div class="col-xs-4">
-                                <h3 class="box-title">Pemantauan Status Pengajuan PSP BMN</h3>
+                                <h3 class="box-title">Rekap Seluruh Gaji</h3>
                             </div>
                             <div class="col-xs-7">
                                 <div class="input-group">

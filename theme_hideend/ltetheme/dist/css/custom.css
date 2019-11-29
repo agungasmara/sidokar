@@ -43,3 +43,22 @@
 	margin:auto!important;
 }
 
+
+.isNegatifclass{
+    background-color: red!important
+}
+.isPositifclass{
+    background-color: green!important;
+    color:white!important;
+}
+
+.clearFormInput{
+    background-color: #fff!important;
+}
+
+.borderForm{
+    border-style: dashed;
+    border-radius:5px;
+    padding: 3px;
+    border-width: 1px;
+}

@@ -227,7 +227,7 @@
       <!-- AdminLTE for demo purposes -->
       
        
-      <script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>  
+      <script src="<?php echo $this->common->theme_hideend()?>plugins/js//vue.js"></script>  
       <script src="<?php echo $this->common->theme_hideend();?>ltetheme/dist/js/demo.js"></script>
       <script src="<?php echo $this->common->theme_hideend();?>plugins/js/axios.min.js"></script>
       <script src="<?php echo $this->common->theme_hideend();?>plugins/js/pagination.js"></script>
