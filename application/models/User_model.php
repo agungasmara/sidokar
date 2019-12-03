@@ -3,6 +3,24 @@
 class User_Model extends CI_Model 
 {
 
+
+  	public function showAll($idinstansi,$tipeUser=''){
+        $query = $this->db
+                 ->select('*');
+
+        $query = $query->from('users');
+        if($tipeUser!==''){
+            $query = $query->where('user_role',$tipeUser);
+        }
+        $query = $query->get();
+                      
+        if($query->num_rows() > 0){
+            return $query->result();
+        }else{
+            return false;
+        }
+    }
+
 	public function getUser($email, $pass) 
 	{
 		return $this->db->select("ID")

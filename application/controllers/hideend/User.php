@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Instansi extends CI_Controller
+class User extends CI_Controller
 {
 
 	public function __construct()
@@ -11,9 +11,7 @@ class Instansi extends CI_Controller
 		$this->load->model("forex_model");
 		$this->load->model("user_model");
 		$this->load->model("instansi_model");
-	//	$this->load->helper(array('form', 'url'));
 		if (!$this->user->loggedin) 	redirect(site_url("hideend/login"));
-//		echo "<pre>"; print_r($this->user);die;
 		if(!$this->common->has_permissions(array(
 				"admin", "content_manager", "content_worker","admin_members"), $this->user)) {
 				$this->template->error(lang("error_81"));
@@ -63,11 +61,8 @@ class Instansi extends CI_Controller
 	{  
 		$this->template->loadData("activeLink",
 			array("content" => array("general" => 1)));
-		$vueComponentInstansiForm = $this->load->view("hidepage/vue/ComponentInstansiForm.js",'',true);
-        $vueComponentInstansiTable = $this->load->view("hidepage/vue/ComponentInstansiTable.js",'',true);
-        $vueComponentRenstraTable = $this->load->view("hidepage/vue/ComponentInstansiRenstraTable.js",'',true);
-        $vueComponentRenjaTable = $this->load->view("hidepage/vue/ComponentInstansiRenjaTable.js",'',true);
-        $vueComponentDocumentForm = $this->load->view("hidepage/vue/ComponentDocumentForm.js",'',true);
+		$vueComponentUserForm = $this->load->view("hidepage/vue/ComponentUserForm.js",'',true);
+        $vueComponentUserTable = $this->load->view("hidepage/vue/ComponentUserTable.js",'',true);
 		$this->template->loadExternal(
 			'<link rel="stylesheet" href="'.$this->common->theme_hideend().'plugins/css/vue-form-wizard.min.css">'.
 			'<link rel="stylesheet" href="'.$this->common->theme_hideend().'plugins/css/vue-multiselect.min.css">'
@@ -82,30 +77,23 @@ class Instansi extends CI_Controller
             '<script src="'.$this->common->theme_hideend().'plugins/js/vuejs-datepicker.min.js"></script>'.
 			'<script src="'.$this->common->theme_hideend().'plugins/js/date_fns.js"></script>'.
             '<script src="'.$this->common->theme_hideend().'plugins/js/vue-blink.js"></script>'.
-			$vueComponentInstansiForm.
-            $vueComponentInstansiTable.
-            $vueComponentRenstraTable.
-            $vueComponentRenjaTable.
-            $vueComponentDocumentForm.
-			'<script src="'.$this->common->theme_hideend().'plugins/js/appInstansi.js"></script>'
+			$vueComponentUserForm.
+            $vueComponentUserTable.
+			'<script src="'.$this->common->theme_hideend().'plugins/js/appUser.js"></script>'
 			);
-		$this->template->loadContent("hidepage/instansi/lists.php", array(
+		$this->template->loadContent("hidepage/user/lists.php", array(
 			)
 		);
 	}
 
 
 
-	public function showAll($jenisAkun=''){
-		$userid = '';
-		if($jenisAkun!=="verify"){
-			$userid=$this->user->info->ID;
-		}
+	public function showAll(){
 		
-       	$query =  $this->instansi_model->showAll($userid);
+       	$query =  $this->user_model->showAll($userid);
        	$result = [];
         if($query){
-            $result['instansi'] = $query;
+            $result['user'] = $query;
         }
         echo json_encode($result);
     }

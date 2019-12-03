@@ -42,13 +42,17 @@ class Renstra_model extends CI_Model
   }
 
 
-  public function showAll($idinstansi){
+  public function showAll($idinstansi,$startYear='',$endYear=''){
         $query = $this->db
                  ->select('*');
 
         $query = $query->from('dokumen_renstra')
-                      ->where('id_instansi',$idinstansi)
-                       ->get();
+                       ->where('id_instansi',$idinstansi);
+        if($startYear!==''&&$endYear!==''){
+            $query = $query->where('periode_start >=',$startYear)
+                           ->where('periode_end <=',$endYear);
+        }
+        $query = $query->get();
                       
         if($query->num_rows() > 0){
             return $query->result();

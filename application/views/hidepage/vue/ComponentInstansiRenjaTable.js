@@ -14,8 +14,8 @@
                                     <th class="text-white">Action</th>
                                 </thead>
                                 <tbody class="table-light">
-                                    <tr v-for="data in instansi" class="table-default">
-                                        <td style="padding-left:0px">{{data.id}}</td>
+                                    <tr v-for="(data, index) in dokumen" class="table-default">
+                                        <td style="padding-left:0px">{{index+1}}</td>
                                         <td style="padding-left:0px">{{data.nama}}</td> 
                                         <td style="padding-left:0px">{{data.periode_start}}</td> 
                                         <td style="padding-left:0px" v-if="parseInt(data.softcopy)">Ada</td> 
@@ -27,7 +27,7 @@
                                             <button type="button" 
                                                     class="btn btn-info" 
                                                     @click=
-                                                        "selectinstansi(data);getDatachooseInstansi();selectJenisForm(data.hasil_verifikasi);getJenisForm()">
+                                                        "selectinstansi(data);getDatachooseInstansi();selectJenisForm(data.hasil_verifikasi);getJenisDocumentForm()">
 
                                                 View Details
                                             </button>

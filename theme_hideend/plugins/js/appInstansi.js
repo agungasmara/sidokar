@@ -24,24 +24,19 @@ if(myUrl.includes("localhost")){
 // Table
 tableRenstra = {
             template: '#renstraTable',
-            props: ['datainstansi'],
+            props: ['datainstansi','datarangeyear'],
             data() {
                  return {
                     url: myUrl,
-                    instansi:[],
-                    emptyResult: false,
+                    dokumen:[],
                     successMSG: '',
                     totalData:0,
                     currentPage: 0,
                     rowCountPage: 5,
                     pageRange: 2,
+                    emptyResult:false,
                     chooseDocumentRenstra:{},
-                    jenisForm:{
-                        'verifikasi':false,
-                        'uploaddokumen':false,
-                        'butuhsurvey':false,
-                        'butuhkelengkapan':false,
-                    },
+                    jenisForm:"",
                     
                  }
 
@@ -58,21 +53,34 @@ tableRenstra = {
                     },
                     showAll(id){ 
                         let self = this
-                        axios.post(this.url+"/hideend/renstra/showAll/"+id).then(function(response){
+                        let link = ''
+                        if(Object.entries(this.datarangeyear).length === 0 && this.datarangeyear.constructor === Object){
+                            link = this.url+"/hideend/renstra/showAll/"+id
+                           
+                        }else{
+                            let start = this.datarangeyear.start_year
+                            let end = this.datarangeyear.end_year
+                            link = this.url+"/hideend/renstra/showAll/"+id+"/"+start+"/"+end
+                           
+                        } 
+                        this.dokumen={}
+                        axios.post(link).then(function(response){
                                  if(response.data.dokumen == null){
                                         console.log("error show all")
+                                        self.emptyResult=true
                                     }else{
                                         self.getData(response.data.dokumen);
                                     }
-                        })
+                            })  
+                      
                     },
-                    getData(instansi){
+                    getData(dokumen){
                         this.emptyResult = false; // become false if has a record
-                        this.totalData = instansi.length //get total of user
-                        this.instansi = instansi.slice(this.currentPage * this.rowCountPage, (this.currentPage * this.rowCountPage) + this.rowCountPage); //slice the result for pagination
+                        this.totalData = dokumen.length //get total of user
+                        this.dokumen = dokumen.slice(this.currentPage * this.rowCountPage, (this.currentPage * this.rowCountPage) + this.rowCountPage); //slice the result for pagination
                         
                          // if the record is empty, go back a page
-                        if(this.instansi.length == 0 && this.currentPage > 0){ 
+                        if(this.dokumen.length == 0 && this.currentPage > 0){ 
                             this.pageUpdate(self.currentPage - 1)
                             this.clearAll();  
                         }
@@ -85,13 +93,13 @@ tableRenstra = {
                         this.chooseDocumentRenstra = data
                     },
                     selectJenisForm(jenisForm){
-                            this.jenisForm.document = "renstra"
+                            this.jenisForm = "renstra"
                     },
                     getDataDocumentRenstra(){
                          this.$emit('send-data', this.chooseDocumentRenstra)
                     },
                     getJenisDocumentForm(){
-                         this.$emit('send-jenisform', this.jenisForm)
+                         this.$emit('send-jenisform', "renstra")
                     }
 
         },
@@ -99,56 +107,68 @@ tableRenstra = {
 
 // Table
 tableRenja = {
-            template: '#renjaTable',
+            template: '#renjaTable',            
+            props: ['datainstansi','datarangeyear'],
             data() {
                  return {
                     url: myUrl,
-                    instansi:[],
-                    emptyResult: false,
+                    dokumen:[],
                     successMSG: '',
                     totalData:0,
                     currentPage: 0,
                     rowCountPage: 5,
                     pageRange: 2,
                     chooseInstansi:{},
-                    jenisForm:{
-                        'verifikasi':false,
-                        'uploaddokumen':false,
-                        'butuhsurvey':false,
-                        'butuhkelengkapan':false,
-                    },
+                    emptyResult:false,
+                    jenisForm:""
                     
                  }
 
             },
             created(){
-                this.showAll()
+                this.showAll(this.datainstansi.id)
             },
             methods:{
+
+                    selectJenisForm(jenisForm){
+                            this.jenisForm = "renja"
+                    },
                     gotoEditData(id){
                         window.location.href = myUrl + 'hideend/instansi/index/'+id;  
                     },
                     refresh(){
                         this.showAll(); //for preventing
                     },
-                    showAll(){ 
-                        console.log("masuk renja")
+                    showAll(id){ 
                         let self = this
-                        axios.post(this.url+"/hideend/renja/showAll").then(function(response){
+                        let link = ''
+                        if(Object.entries(this.datarangeyear).length === 0 && this.datarangeyear.constructor === Object){
+                            link = this.url+"/hideend/renja/showAll/"+id
+                           
+                        }else{
+                            let start = this.datarangeyear.start_year_renja
+                            let end = this.datarangeyear.end_year_renja
+                            link = this.url+"/hideend/renja/showAll/"+id+"/"+start+"/"+end
+                           
+                        } 
+                        this.dokumen={}
+                        axios.post(link).then(function(response){
                                  if(response.data.dokumen == null){
                                         console.log("error show all")
+                                        self.emptyResult=true
                                     }else{
                                         self.getData(response.data.dokumen);
                                     }
-                        })
+                            })  
+                      
                     },
-                    getData(instansi){
+                    getData(dokumen){
                         this.emptyResult = false; // become false if has a record
-                        this.totalData = instansi.length //get total of user
-                        this.instansi = instansi.slice(this.currentPage * this.rowCountPage, (this.currentPage * this.rowCountPage) + this.rowCountPage); //slice the result for pagination
+                        this.totalData = dokumen.length //get total of user
+                        this.dokumen = dokumen.slice(this.currentPage * this.rowCountPage, (this.currentPage * this.rowCountPage) + this.rowCountPage); //slice the result for pagination
                         
                          // if the record is empty, go back a page
-                        if(this.instansi.length == 0 && this.currentPage > 0){ 
+                        if(this.dokumen.length == 0 && this.currentPage > 0){ 
                             this.pageUpdate(self.currentPage - 1)
                             this.clearAll();  
                         }
@@ -172,8 +192,8 @@ tableRenja = {
                     getDatachooseInstansi(){
                          this.$emit('send-data', this.chooseInstansi)
                     },
-                    getJenisForm(){
-                         this.$emit('send-jenisform', this.jenisForm)
+                    getJenisDocumentForm(){
+                         this.$emit('send-jenisform', "renja")
                     }
 
         },
@@ -264,7 +284,7 @@ tableInstansi = {
 
 detailDocument =  {
             template: '#documentForm',
-            props: ['datadocument','datainstansi'],
+            props: ['datadocument','datainstansi','jenisdokumen'],
             components: {
                     vuejsDatepicker,
                     'vue-blink': VueBlink
@@ -272,7 +292,15 @@ detailDocument =  {
             data() {
                  return {
                     url: myUrl,
-                    document:this.datadocument,          
+                    document:{
+                        file_hardcopy:"",
+                        file_softcopy:"",
+                        hardcopy:0,
+                        nama:"",
+                        periode_end:"",
+                        periode_start:"",
+                        softcopy:0,
+                    },          
                     showDocumentVerifikasiFinal:false,         
                     showDocumentKekuranganFinal:false,         
                     showDocumentSurveyFinal:false,    
@@ -296,17 +324,20 @@ detailDocument =  {
                       },
                     datepicker:"",
                     option_detail_pegawai: [],
-                    option_jenis_gaji: [],
-                    isEditForm:false,
+                    isEditForm:0,
                     isSaveNext:0,
-                    periode_renstra_start:0,
-                    periode_renstra_end:0,
+                    periode_start:0,
+                    periode_end:0,
                     isuploadUlangDocumentSoftcopy:false,
                     isuploadUlangDocumentHardcopy:false,
                     isprosesUploadDocumentSoftcopy:false,
                     isprosesUploadDocumentHardcopy:false,
                     fileSoftcopy:"",
                     fileHardcopy:"",
+                    tipedokumen:{},
+                    option_tipedokumen:[{"id":"1","nama":"Rencana Strategis (Renstra)"},
+                                        {"id":"2","nama":"Rencana Kerja (Renja)"}],
+                
 
                     
                     
@@ -314,6 +345,7 @@ detailDocument =  {
 
             },      
             created(){
+                this.setDocument()
                 this.cekDocument()
             },      
             computed:{
@@ -331,51 +363,32 @@ detailDocument =  {
                         },
             },
             methods:{
+                setDocument(){
+                    if(typeof this.datadocument.id !== "undefined" && this.datadocument.id !=="" ){
+                        console.log("masuk kaga?")
+                        this.isEditForm= 1
+                        this.document = this.datadocument
+
+                        if(this.jenisdokumen==="renstra"){
+                            this.tipedokumen={"id":"1","nama":"Rencana Strategis (Renstra)"}
+                        }else{
+                            this.tipedokumen={"id":"2","nama":"Rencana Kerja (Renja)"}
+                        }
+
+                    }else{
+                        this.isEditForm= 0
+                        this.tipedokumen={"id":"1","nama":"Rencana Strategis (Renstra)"}
+                    }
+                },
+                set_jenis_dokumen(){
+
+                },
                 pickStatusDocumentSoftcopy(value){
+                        console.log(value)
                         this.document.softcopy=(value==="ada")?1:0;
                 },
                 pickStatusDocumentHardcopy(value){
                         this.document.hardcopy=(value==="ada")?1:0;
-                },
-                 uploadFileDocumentHardcopy: function(e) {
-                    let formData = new FormData();
-                    if(typeof this.$refs.fileDocumentHardcopy !== 'undefined'){
-                       this.fileHardcopy = this.$refs.fileDocumentHardcopy.files[0];  
-                       formData.append('fileHard', this.fileHardcopy);  
-                    }   
-
-
-                    if (typeof this.$refs.fileDocumentHardcopy !== 'undefined') {
-
-                        let self = this
-                        let ax = axios.post(this.url + '/hideend/instansi/uploadFile', formData, {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
-                                }
-                            })
-                            .then(function(response) {
-                                if(!response.error){
-                                    response.data.file.forEach((item, index)=>{
-                                        self.isuploadUlangDocumentHardcopy=false
-                                        if(response.data.tipe[index]==="fileHard"){
-                                            self.document.file_hardcopy = item
-                                        }
-                                    })
-                                }else{
-                                    self.isuploadUlangDocumentHardcopy=false
-                                    self.isprosesUploadDocumentHardcopy=false
-                                    self.showUploadDocumentHardcopy=true
-                                }
-                            })
-                            .catch(function(error) {
-                                self.isuploadUlangDocumentHardcopy=false
-                                self.isprosesUploadDocumentHardcopy=false
-                                self.showUploadDocumentHardcopy=true
-
-                                console.log(error);
-                            });
-                    }
-
                 },
                 uploadFileDocumentSoftcopy: function(e) {
                     let formData = new FormData();
@@ -428,9 +441,11 @@ detailDocument =  {
                     }
                 },
                 showEndYear(){
+                    let date =  this.document.periode_start
+                    this.document.periode_end = new Date(new Date(date).setFullYear(new Date(date).getFullYear() + 5))
                     this.$refs.endYearPicker.showCalendar();
                 },
-                jenis_gaji_fn({nama}) {
+                jenis_dokumen({nama}) {
 
                     return `${nama}`
                 },
@@ -445,16 +460,15 @@ detailDocument =  {
                     }
                     return formData;
                 },
-                customFormatter(date) {
-                    return moment(date).format('YYYY');
-                },   
                 showDate (date) {
                    this.date = date
                 },
                 backtoTable(){
+                    this.clearForm()
                     let valueHide ={
-                                    showInstansiDetail : false,                               
-                                    showInstansiTable : true                                    
+                                    showInstansiDetail : true,                               
+                                    showInstansiTable : false,                                   
+                                    showDocumentDetail : false                                    
                                 }
                     this.$emit('back-data', valueHide)
                 },
@@ -462,20 +476,46 @@ detailDocument =  {
 
                    
                 },
-                saveDocument() {                    
-
-                    if(typeof this.datadocument!=='undefined'){
-                       this.updateData()
-                    }else{
-                        this.addData()
-                    }
-
+                clearForm(){
+                     this.document.id= ""
+                     this.document.nama= ""
+                     this.document.file_hardcopy= ""
+                     this.document.file_softcopy= ""
+                     this.document.hardcopy= ""
+                     this.document.periode_end= ""
+                     this.document.periode_end= ""
+                     this.document.periode_start= ""
+                     this.document.softcopy= ""  
+                     this.isEditForm=0
 
                 },
+                saveDocument() {
+                    if(this.isEditForm){
+                       this.updateData()
+                    }else{
+                        console.log("add")
+                        this.addData()
+                    }
+                   
+                },
+                customFormatter(date) {
+                    return moment(date).format('YYYY');
+                },   
                 updateData(){
                     let self = this;
-                    var formData = this.formData(this.document);
-                    axios.post(this.url + "/hideend/renstra/update_document", formData).then(function(response) {
+                   
+                    let link        
+                    this.document.periode_start = this.customFormatter(this.document.periode_start)
+                    if(this.tipedokumen.id=='1'){
+                        link = this.url + "/hideend/renstra/update_document"
+                        this.document.periode_end = this.customFormatter(this.document.periode_end)
+                    }else{
+                        link = this.url + "/hideend/renja/update_document"                        
+                        this.document.periode_end = this.document.periode_start
+                    }
+                    
+                    let formData = this.formData(this.document);
+                    axios.post(link, formData).then(function(response) {
                         if (response.data.error) {
                             console.log(response.data.msg);
                         } else {
@@ -486,19 +526,26 @@ detailDocument =  {
                 },
                 addData(){
                     let self = this;
+                    let link        
+                    this.document.periode_start = this.customFormatter(this.document.periode_start)
+                    if(this.tipedokumen.id=='1'){
+                        link = this.url + "/hideend/renstra/insert_document"
+                        this.document.periode_end = this.customFormatter(this.document.periode_end)
+                    }else{
+                        link = this.url + "/hideend/renja/insert_document"
+                        this.document.periode_end = this.document.periode_start
+                    }
                     var formData = this.formData(this.document);
-                    axios.post(this.url + "/hideend/renstra/insert_document", formData).then(function(response) {
+                    axios.post(link, formData).then(function(response) {
                         if (response.data.error) {
                             console.log(response.data.msg);
                         } else {
-                            console.log('Insert Success')     
-                            if(self.isSaveNext){
-                                //self.$refs.vuewizard.reset()
-                                 window.location.href = myUrl + 'hideend/instansi/';
-
-                            }else{
-                                window.location.href = myUrl + 'hideend/instansi/lists';
-                            }                       
+                            if (response.data.error) {
+                                console.log(response.data.msg);
+                            } else {
+                                console.log('Insert Success')                            
+                                self.backtoTable()
+                            }    
                         }
                     })
                 },
@@ -570,32 +617,75 @@ var v = new Vue({
         alignRight: false,
         trigger: false,
         showInstansiDetail: false,
+        showDocumentDetail: false,
         showInstansiTable: true,
         showDocumentDetail: false,
         periode_renja_start: "",
+        periode_renja_end: "",
         periode_renstra_start: "",
         periode_renstra_end: "",
         nama_instansi: "",
+        jenis_document: "",
         chooseDocument:{},
+        chooseRangeYear:{}
 
     },
 
     methods: {
+        addResntraDocument(value){
+
+            this.showDetailForm()
+        },        
+
         getJenisDocumentForm(value){
 
-            this.jenis_document = this.nama_instansi
+            this.jenis_document = value
+        },
+        showDetailForm(){
+            this.showInstansiDetail = false
+            this.showInstansiTable = false
+            this.showDocumentDetail = true   
         },
         getDataDocument(value) {
             
             this.chooseDocument = value
             this.chooseDocument.nama_instansi = this.nama_instansi
             this.chooseDocument.id_instansi = this.id_instansi
-            this.showInstansiDetail = false
-            this.showInstansiTable = false
-            this.showDocumentDetail = true
+            this.showDetailForm()
            
         },
+        resetRangeYearRenja(){
+            this.periode_renja_start =''
+            this.periode_renja_end =''
+            this.chooseRangeYear.start_year_renja =''
+            this.chooseRangeYear.end_year_renja =''
+            this.$refs.tablerenja.showAll(this.chooseInstansi.id)
+        },
+        resetRangeYear(){
+            this.periode_renstra_start =''
+            this.periode_renstra_end =''
+            this.chooseRangeYear.start_year =''
+            this.chooseRangeYear.end_year =''
+            this.$refs.tablerenstra.showAll(this.chooseInstansi.id)
+        },
+        processRangeYearRenja(){
+            this.chooseRangeYear.start_year_renja = this.customFormatter(this.periode_renja_start)
+            this.chooseRangeYear.end_year_renja = this.customFormatter(this.periode_renja_end)
+            this.$refs.tablerenja.showAll(this.chooseInstansi.id)
+        },
+        processRangeYear(){
+            this.chooseRangeYear.start_year = this.customFormatter(this.periode_renstra_start)
+            this.chooseRangeYear.end_year = this.customFormatter(this.periode_renstra_end)
+            this.$refs.tablerenstra.showAll(this.chooseInstansi.id)
+        },
+        showEndYearRenja(){
+            let date =  this.periode_renja_start
+            this.periode_renja_end = new Date(new Date(date).setFullYear(new Date(date).getFullYear() + 1))
+            this.$refs.endYearPickerRenja.showCalendar();
+        },
         showEndYear(){
+            let date =  this.periode_renstra_start
+            this.periode_renstra_end = new Date(new Date(date).setFullYear(new Date(date).getFullYear() + 5))
             this.$refs.endYearPicker.showCalendar();
         },
         testConsole(){
@@ -613,6 +703,7 @@ var v = new Vue({
         backtoTable(value){
             this.showInstansiDetail = value.showInstansiDetail
             this.showInstansiTable = value.showInstansiTable
+            this.showDocumentDetail = value.showDocumentDetail
 
         },
         finishProsesVerifikasi(value) {

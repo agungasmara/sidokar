@@ -78,7 +78,7 @@
                     <div class="box box-info">
                         <div class="box-header">
                             <div class="col-md-4">
-                                <h3 class="box-title">Dokumen Rencana Strategis </h3>
+                                <h3 class="box-title">Dokumen Rencana Strategis</h3>
                             </div>
                             <div class="col-md-2">
                                <div class="input-group" style="width: 100%!important;">
@@ -93,20 +93,28 @@
                             </div>
                              <div class="col-md-2">
                                 <div class="input-group" style="width: 100%!important;">
-                                    <vuejs-datepicker ref="endYearPicker" :format="customFormatter" :minimum-view="'year'" input-class="form-control clearFormInput" :value="new Date()" v-model="periode_renstra_end" name="periode_gaji" Placeholder="End Periode"></vuejs-datepicker>
+                                    <vuejs-datepicker ref="endYearPicker" :format="customFormatter" :minimum-view="'year'" input-class="form-control clearFormInput" :value="new Date()" v-model="periode_renstra_end" name="periode_gaji" Placeholder="End Periode" @closed='processRangeYear()'></vuejs-datepicker>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-1" style="padding: 0">
                                 <div class="pull-left">
-                                    <a href="<?php echo site_url("/hideend/instansi/") ?>" class="btn btn-primary">
-                                        Add Renstra
+                                    <a href="#" @click.prevent ="resetRangeYear()" class="btn btn-primary" style="width: 100%">
+                                        Reset
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-1" style="padding: 0">
+                                <div class="pull-left">
+                                    <a href="#" @click.prevent="addResntraDocument()" class="btn btn-primary" style="width: 100%">
+                                        Add
                                     </a>
                                 </div>
                             </div>
                         </div>
                         
                         <table-renstra 
-                            ref="'tableInstansi'" 
+                            ref="tablerenstra" 
+                            :datarangeyear = "chooseRangeYear"
                             :datainstansi="chooseInstansi" 
                             v-on:send-data="getDataDocument"
                             v-on:send-jenisform="getJenisDocumentForm"
@@ -138,24 +146,42 @@
                             <div class="col-md-4">
                                 <h3 class="box-title">Dokumen Rencana Kerja</h3>
                             </div>
-                            <div class="col-md-4"></div>
                             <div class="col-md-2">
                                <div class="input-group" style="width: 100%!important;">
                                     <vuejs-datepicker :format="customFormatter" :minimum-view="'year'" input-class="form-control clearFormInput" :value="new Date()" v-model="periode_renja_start" name="periode_gaji" Placeholder="Start Periode"
+                                    @closed='showEndYearRenja()'
                                     ></vuejs-datepicker>
                                 </div>
-                            </div>               
-                            <div class="col-md-2">
+                            </div>                            
+
+                            <div class="col-md-1" style="height: 34px">
+                                <div style="line-height: 34px;"><b>Until Year</b></div>
+                            </div>
+                             <div class="col-md-2">
+                                <div class="input-group" style="width: 100%!important;">
+                                    <vuejs-datepicker ref="endYearPickerRenja" :format="customFormatter" :minimum-view="'year'" input-class="form-control clearFormInput" :value="new Date()" v-model="periode_renja_end" name="periode_gaji" Placeholder="End Periode" @closed='processRangeYearRenja()'></vuejs-datepicker>
+                                </div>
+                            </div>
+                            <div class="col-md-1" style="padding: 0">
                                 <div class="pull-left">
-                                    <a href="<?php echo site_url("/hideend/instansi/") ?>" class="btn btn-primary">
-                                        Add Renja
+                                    <a href="#" @click.prevent ="resetRangeYearRenja()" class="btn btn-primary" style="width: 100%">
+                                        Reset
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-1" style="padding: 0">
+                                <div class="pull-left">
+                                    <a href="#" @click.prevent ="addResntraDocument()" class="btn btn-primary" style="width: 100%">
+                                        Add
                                     </a>
                                 </div>
                             </div>
                         </div>
                         
                         <table-renja 
-                            ref="'tableInstansi'" 
+                            ref="tablerenja"
+                            :datarangeyear = "chooseRangeYear"   
+                            :datainstansi="chooseInstansi" 
                             v-on:send-data="getDataDocument"
                             v-on:send-jenisform="getJenisDocumentForm"
                         />   
@@ -183,8 +209,10 @@
                 <!-- Custom Tabs -->
                 <detail-document 
                         :datainstansi="chooseInstansi" 
-                        :datadocument="chooseDocument"                        
+                        :datadocument="chooseDocument"                       
+                        :jenisdokumen="jenis_document"                        
                         v-on:send-data="finishProsesVerifikasi"
+                        v-on:send-jenisform="getJenisDocumentForm"
                         v-on:back-data="backtoTable"
                         > 
                 </detail-document>

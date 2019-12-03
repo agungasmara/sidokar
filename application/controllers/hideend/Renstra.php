@@ -21,9 +21,9 @@ class Renstra extends CI_Controller
 		}
 	}
 
-    public function showAll($idinstansi){
+    public function showAll($idinstansi,$startYear='',$endYear=''){
 
-        $query =  $this->renstra_model->showAll($idinstansi);
+        $query =  $this->renstra_model->showAll($idinstansi,$startYear,$endYear);
         $result = [];
         if($query){
             $result['dokumen'] = $query;
@@ -31,36 +31,32 @@ class Renstra extends CI_Controller
         echo json_encode($result);
     }
 
+
+
     public function insert_document()
-    {	
-      
-        $checked = $this->input->post('is_saveschema');
+    {   
+
+        $id = $this->input->post('id');  
 
         $data = array(                
            'userid' => $this->user->info->ID,
            'updated_at' =>  date("Y-m-d H:i:s"),  
         );
             
-        $dataRekap = array_merge($data,$this->getDataRekap()); 
-        if($checked){
-            $idpegawai = $this->input->post('id_pegawai');
-            $dataPegawai = array_merge($data,$this->getDataPegawaiSchema()); 
-            $this->penggajian_model->updatePegawai($idpegawai, $dataPegawai);
-        }
-           
-        if ($this->penggajian_model->insertRekap($dataRekap)) {
+        $dataDocument = array_merge($data,$this->getDataDocument()); 
+   
+        if ($this->renstra_model->insertDocument($dataDocument)) {
                 $result['error'] = false;
-                $result['msg']   = 'Pengajuan Insert successfully';
+                $result['msg']   = 'Pengajuan Inserted successfully';
                
         }else{
-            
+                
             $result['error'] = false;
-            $result['msg']   = 'Pengajuan Insert Error';
+            $result['msg']   = 'Pengajuan Inserted Error';
         }
-        // echo "<pre>"; print_r($this->db->last_query());die;          
+            
         echo json_encode($result);
     }
-
 
     public function update_document()
     {   

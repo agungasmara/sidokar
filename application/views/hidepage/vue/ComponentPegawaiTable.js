@@ -1,23 +1,23 @@
 
 
 
-<script type="text/x-template" id="renstraTable">
+<script type="text/x-template" id="userTable">
     <div>
                   <div class="box-body">
                             <table class="table is-bordered is-hoverable">
                                 <thead class="text-white bg-dark">
                                     <th class="text-white">ID</th>
                                     <th class="text-white">Dokumen</th>
-                                    <th class="text-white">Periode</th>
+                                    <th class="text-white">Tahun</th>
                                     <th class="text-white">Softcopy</th>
                                     <th class="text-white">Hardcopy</th>
                                     <th class="text-white">Action</th>
                                 </thead>
                                 <tbody class="table-light">
-                                    <tr v-for="(data, index) in dokumen" class="table-default">
+                                    <tr v-for="(data, index) in pegawai" class="table-default">
                                         <td style="padding-left:0px">{{index+1}}</td>
                                         <td style="padding-left:0px">{{data.nama}}</td> 
-                                        <td style="padding-left:0px">{{data.periode_start}} - {{data.periode_end}}</td> 
+                                        <td style="padding-left:0px">{{data.periode_start}}</td> 
                                         <td style="padding-left:0px" v-if="parseInt(data.softcopy)">Ada</td> 
                                         <td style="padding-left:0px" v-else>Tidak Ada</td> 
                                         <td style="padding-left:0px" v-if="parseInt(data.hardcopy)">Ada</td> 
@@ -27,7 +27,7 @@
                                             <button type="button" 
                                                     class="btn btn-info" 
                                                     @click=
-                                                        "selectDocumentRenstra(data);getDataDocumentRenstra();selectJenisForm(data.hasil_verifikasi);getJenisDocumentForm()">
+                                                        "selectinstansi(data);getDatachooseInstansi();selectJenisForm(data.hasil_verifikasi);getJenisDocumentForm()">
 
                                                 View Details
                                             </button>
