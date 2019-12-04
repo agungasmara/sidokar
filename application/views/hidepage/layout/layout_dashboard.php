@@ -136,7 +136,7 @@
                      
                      ) : ?>                  
                      <li class="<?php if(isset($activeLink['settings']['general'])) echo "active" ?>"><a href="<?php echo site_url("hideend/userapp/lists") ?>"><span class="glyphicon glyphicon-cog sidebar-icon"></span> Manajemen User</a></li> 
-                     <li class="<?php if(isset($activeLink['settings']['general'])) echo "active" ?>"><a href="<?php echo site_url("hideend/instansi/lists") ?>"><span class="glyphicon glyphicon-cog sidebar-icon"></span>Manajemen Document</a></li>
+                     <li class="<?php if(isset($activeLink['settings']['general'])) echo "active" ?>"><a href="<?php echo site_url("hideend/instansi/lists") ?>"><span class="glyphicon glyphicon-cog sidebar-icon"></span>Manajemen Dokumen</a></li>
 
                   <?php endif; ?>
 
@@ -150,15 +150,7 @@
                   <?php endif; ?>
 
 
-                   <?php
-                   //Role VERIFIKATOR
-                   if($this->user->loggedin && isset($this->user->info->user_role_id) &&
-                     ($this->user->info->admin)
-                     
-                     ) : ?>  
-                     <li class="<?php if(isset($activeLink['settings']['general'])) echo "active" ?>"><a href="<?php echo site_url("hideend/verifikasi/status") ?>"><span class="glyphicon glyphicon-cog sidebar-icon"></span>Status Pengajuan PSP BMN</a></li>
-                  <?php endif; ?>
-
+                  
 
                </ul>
             </section>
