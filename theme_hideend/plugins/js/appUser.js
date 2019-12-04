@@ -37,19 +37,21 @@ userTable = {
                     emptyResult:false,
                     chooseDocumentRenstra:{},
                     jenisForm:"",
+                    chooseUser:{}
                     
                  }
 
             },
             created(){
-                this.showAll(this.datainstansi.id)
+                this.showAll()
             },
             methods:{
-                    showAll(id){ 
+                    showAll(){ 
                         let self = this
-                        let link = this.url+"/hideend/user/showAll"
+                        let link = this.url+"/hideend/userapp/showAll"
                         this.user={}
                         axios.post(link).then(function(response){
+                            //console.table(response.data.user)
                                  if(response.data.user == null){
                                         console.log("error show all")
                                         self.emptyResult=true
@@ -80,22 +82,22 @@ userTable = {
                     selectJenisForm(jenisForm){
                             this.jenisForm = "renstra"
                     },
-                    getDataDocumentRenstra(){
-                         this.$emit('send-data', this.chooseDocumentRenstra)
+                    selectUser(data){
+                        this.chooseUser = data
                     },
-                    getJenisDocumentForm(){
-                         this.$emit('send-jenisform', "renstra")
+                    getDetailUser(){
+                         this.$emit('user-data', this.chooseUser)
                     }
 
         },
 }// Table
 
 
-
+        
 
 detailUser =  {
-            template: '#documentForm',
-            props: ['datadocument','datainstansi','jenisuser'],
+            template: '#userForm',
+            props: ['userdata'],
             components: {
                     vuejsDatepicker,
                     'vue-blink': VueBlink
@@ -103,122 +105,43 @@ detailUser =  {
             data() {
                  return {
                     url: myUrl,
-                    document:{
-                        file_hardcopy:"",
-                        file_softcopy:"",
-                        hardcopy:0,
-                        nama:"",
-                        periode_end:"",
-                        periode_start:"",
-                        softcopy:0,
-                    },    
-                
-
-                    
-                    
+                    userData:{
+                       id:"",
+                       fullname:"",
+                       nip:"", 
+                       jabatan:"",
+                       nama_instansi:"", 
+                       id_instansi:"",
+                    }, 
+                    chooseInstansi:{},
+                    option_instansi:[],                      
                 }
-
             },      
             created(){
-                this.setDocument()
-                this.cekDocument()
-            },      
-            computed:{
-
-
-               hrefFileDocumentSoftcopy: function () {
-                            // `this` points to the vm instance
-                            return this.url+'/uploads/'+this.document.file_softcopy
-                            //return this.url
-                        },
-                hrefFileDocumentHardcopy: function () {
-                            // `this` points to the vm instance
-                            return this.url+'/uploads/'+this.document.file_hardcopy
-                            //return this.url
-                        },
+                this.getInstansi()
+                this.setData()
             },
             methods:{
-                setDocument(){
-                    if(typeof this.datadocument.id !== "undefined" && this.datadocument.id !=="" ){
-                        console.log("masuk kaga?")
-                        this.isEditForm= 1
-                        this.document = this.datadocument
 
-                        if(this.jenisuser==="renstra"){
-                            this.tipeuser={"id":"1","nama":"Rencana Strategis (Renstra)"}
-                        }else{
-                            this.tipeuser={"id":"2","nama":"Rencana Kerja (Renja)"}
+                getInstansi(){
+                    let self = this
+                    axios.post(this.url+"/hideend/instansi/showAll").then(function(response){
+                        if(response.data.instansi !== null){
+                            self.option_instansi = response.data.instansi
                         }
-
-                    }else{
-                        this.isEditForm= 0
-                        this.tipeuser={"id":"1","nama":"Rencana Strategis (Renstra)"}
-                    }
+                    })
                 },
-                set_jenis_user(){
+                nama_instansi({nama}) {
 
+                    return `${nama}`
                 },
-                pickStatusDocumentSoftcopy(value){
-                        console.log(value)
-                        this.document.softcopy=(value==="ada")?1:0;
-                },
-                pickStatusDocumentHardcopy(value){
-                        this.document.hardcopy=(value==="ada")?1:0;
-                },
-                uploadFileDocumentSoftcopy: function(e) {
-                    let formData = new FormData();
-                    if(typeof this.$refs.fileDocumentSoftcopy !== 'undefined'){
-                       this.fileSoftcopy = this.$refs.fileDocumentSoftcopy.files[0];  
-                       formData.append('fileSoft', this.fileSoftcopy);  
-                    }   
-
-
-                    if (typeof this.$refs.fileDocumentSoftcopy !== 'undefined') {
-
-                        let self = this
-                        let ax = axios.post(this.url + '/hideend/instansi/uploadFile', formData, {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
-                                }
-                            })
-                            .then(function(response) {
-                                if(!response.error){
-                                    response.data.file.forEach((item, index)=>{
-                                        self.isuploadUlangDocumentSoftcopy=false
-                                        if(response.data.tipe[index]==="fileSoft"){
-                                            self.document.file_softcopy = item
-                                        }
-                                    })
-                                }else{
-                                    self.isuploadUlangDocumentSoftcopy=false
-                                    self.isprosesUploadDocumentSoftcopy=false
-                                    self.showUploadDocumentSoftcopy=true
-                                }
-                            })
-                            .catch(function(error) {
-                                self.isuploadUlangDocumentSoftcopy=false
-                                self.isprosesUploadDocumentSoftcopy=false
-                                self.showUploadDocumentSoftcopy=true
-
-                                console.log(error);
-                            });
-                    }
+                setData(){
 
                 },
-                cekDocument(){
-                    this.document.id_instansi = this.datainstansi.id
-                    if(typeof this.datadocument !== "undefined"){
-                            this.isuploadUlangDocumentSoftcopy=(!parseInt(this.datadocument.softcopy))?true:false
-                            this.showUploadDocumentSoftcopy=this.isuploadUlangDocumentSoftcopy
-                            this.isuploadUlangDocumentHardcopy=(!parseInt(this.datadocument.hardcopy))?true:false
-                            this.showUploadDocumentHardcopy=this.isuploadUlangDocumentHardcopy
-
-                    }
-                },
-                showEndYear(){
-                    let date =  this.document.periode_start
-                    this.document.periode_end = new Date(new Date(date).setFullYear(new Date(date).getFullYear() + 5))
-                    this.$refs.endYearPicker.showCalendar();
+                setData(){
+                    this.userData = this.userdata
+                    this.chooseInstansi={"id":this.userData.id_instansi,"nama":this.userData.nama_instansi}
+                    
                 },
                 jenis_user({nama}) {
 
@@ -247,10 +170,6 @@ detailUser =  {
                                 }
                     this.$emit('back-data', valueHide)
                 },
-                setInstansi(){
-
-                   
-                },
                 clearForm(){
                      this.document.id= ""
                      this.document.nama= ""
@@ -264,63 +183,23 @@ detailUser =  {
                      this.isEditForm=0
 
                 },
-                saveDocument() {
-                    if(this.isEditForm){
-                       this.updateData()
-                    }else{
-                        console.log("add")
-                        this.addData()
-                    }
-                   
+                saveUserData() {
+                       this.updateData()                   
                 },
-                customFormatter(date) {
-                    return moment(date).format('YYYY');
-                },   
                 updateData(){
                     let self = this;
                    
-                    let link        
-                    this.document.periode_start = this.customFormatter(this.document.periode_start)
-                    if(this.tipeuser.id=='1'){
-                        link = this.url + "/hideend/renstra/update_document"
-                        this.document.periode_end = this.customFormatter(this.document.periode_end)
-                    }else{
-                        link = this.url + "/hideend/renja/update_document"                        
-                        this.document.periode_end = this.document.periode_start
-                    }
-                    
-                    let formData = this.formData(this.document);
+                    let link = this.url + "/hideend/userapp/update_user"
+            
+                    this.userData.id_instansi = this.chooseInstansi.id
+                    this.userData.nama_instansi = this.chooseInstansi.nama
+                    let formData = this.formData(this.userData);
                     axios.post(link, formData).then(function(response) {
                         if (response.data.error) {
                             console.log(response.data.msg);
                         } else {
                             console.log('Update Success')                            
                             self.backtoTable()
-                        }
-                    })
-                },
-                addData(){
-                    let self = this;
-                    let link        
-                    this.document.periode_start = this.customFormatter(this.document.periode_start)
-                    if(this.tipeuser.id=='1'){
-                        link = this.url + "/hideend/renstra/insert_document"
-                        this.document.periode_end = this.customFormatter(this.document.periode_end)
-                    }else{
-                        link = this.url + "/hideend/renja/insert_document"
-                        this.document.periode_end = this.document.periode_start
-                    }
-                    var formData = this.formData(this.document);
-                    axios.post(link, formData).then(function(response) {
-                        if (response.data.error) {
-                            console.log(response.data.msg);
-                        } else {
-                            if (response.data.error) {
-                                console.log(response.data.msg);
-                            } else {
-                                console.log('Insert Success')                            
-                                self.backtoTable()
-                            }    
                         }
                     })
                 },
@@ -333,22 +212,19 @@ detailUser =  {
                    this.$refs.vuewizard.reset()
                    this.errors.clear()
                 },
-                finishVerifikasiProses(){
-                    this.isShowUploadWizardForm = false;
-                    this.isShowVerifikasiForm = false;
-                    let valueHide ={
-                                    isShowFormKANWIL : false                                    
-                                }
-                    this.$emit('send-data', valueHide)
-                },
-                beforeTab4SwitchKANWIL: function() {
 
-                    return true
-                },
                 beforeTab1Switch: function() {
-
                     return true
-                }
+                },
+                backtoTable(value){
+                    let valueHide ={
+                        showUserForm : false,
+                        showUserTable : true,
+
+                    }
+                    this.$emit('back-data', valueHide)
+                },
+        
 
         },
     }
@@ -366,12 +242,39 @@ var v = new Vue({
     },
     data: {
         url: myUrl,
-    
+        showUserTable:true,
+        showUserForm:false,
+        chooseInstansi:{},
+        chooseUserData:{}
    
 
     },
 
     methods: {
+        showTable(){
+            this.showUserTable=true
+            this.showUserForm=false
+        },
+        showForm(){            
+            this.showUserTable=false
+            this.showUserForm=true
+        },
+        chooseUser(value){
+            this.showForm()
+            this.chooseUserData = value
+        },
+        getDataDocument(value){
+
+        },
+        finishProsesVerifikasi(value){
+
+        },
+        backtoTable(value){
+            this.showUserForm = value.showUserForm
+            this.showUserTable = value.showUserTable
+
+        },
+        
   
 
 

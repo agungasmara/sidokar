@@ -52,10 +52,16 @@ tableRenstra = {
                         this.showAll(); //for preventing
                     },
                     showAll(id){ 
+                        let idElement = document.getElementById('instansi').value
+                        if(idElement!==""){
+                            id = idElement
+                        }
                         let self = this
                         let link = ''
                         if(Object.entries(this.datarangeyear).length === 0 && this.datarangeyear.constructor === Object){
                             link = this.url+"/hideend/renstra/showAll/"+id
+
+                            console.log(link)
                            
                         }else{
                             let start = this.datarangeyear.start_year
@@ -140,6 +146,11 @@ tableRenja = {
                         this.showAll(); //for preventing
                     },
                     showAll(id){ 
+
+                        let idElement = document.getElementById('instansi').value
+                        if(idElement!==""){
+                            id = idElement
+                        }
                         let self = this
                         let link = ''
                         if(Object.entries(this.datarangeyear).length === 0 && this.datarangeyear.constructor === Object){
@@ -364,6 +375,8 @@ detailDocument =  {
             },
             methods:{
                 setDocument(){
+
+                    ///
                     if(typeof this.datadocument.id !== "undefined" && this.datadocument.id !=="" ){
                         console.log("masuk kaga?")
                         this.isEditForm= 1
@@ -594,13 +607,8 @@ var v = new Vue({
     data: {
         url: myUrl,
         verifikasi:{},
-        jenisForm:{
-                        'verifikasi':false,
-                        'uploaddokumen':false,
-                        'butuhsurvey':false,
-                        'butuhkelengkapan':false,
-                    },
-
+        jenisForm:{},
+        idInstansi: "",
         isShowFormKANWIL: false,
         isShowFormKPKNL: false,           
         indexFormWizard:0,
@@ -629,9 +637,49 @@ var v = new Vue({
         chooseDocument:{},
         chooseRangeYear:{}
 
+    },    
+    created(){
+        this.cekInstansiId()
     },
 
     methods: {
+
+
+        showInstansi(id){ 
+            let self = this
+            axios.post(this.url+"/hideend/instansi/showAll/"+id).then(function(response){
+
+                console.log("response.data.instansi[0]")
+                console.log(response.data.instansi[0])
+                if(response.data.instansi === null){
+                    console.log("error show instansi")
+                }else{
+                    let data = response.data.instansi
+
+                    console.log("data")
+                    console.log(data)
+                    self.nama_instansi = data[0].nama
+                    self.chooseInstansi = data[0]
+                    console.log("this.chooseInstansi");
+                    console.log(self.chooseInstansi);
+                }
+            })
+        },
+        cekInstansiId(){
+            this.idInstansi = document.getElementById('instansi').value
+            if(this.idInstansi!==""){
+                this.showInstansiTable=false
+                this.showInstansiDetail=true
+                this.showDocumentDetail=false
+
+                this.showInstansi(this.idInstansi)
+
+               
+               
+
+            }
+            
+        },
         addResntraDocument(value){
 
             this.showDetailForm()

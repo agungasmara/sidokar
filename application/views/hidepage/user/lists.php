@@ -3,12 +3,10 @@
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1 v-if="nama_instansi">
-            <div class="btn btn-primary">{{nama_instansi}}</div> 
-        </h1> 
 
-        <h1 v-else>
-            Dashboard
+
+        <h1 >
+            Dashboard Managemen User
         </h1>
         
     </section>
@@ -30,23 +28,12 @@
                             </div>
                                                     
 
-                        
-                             
-                            <div class="col-md-1" style="padding: 0">
-                                <div class="pull-left">
-                                    <a href="#" @click.prevent="addResntraDocument()" class="btn btn-primary" style="width: 100%">
-                                        Add
-                                    </a>
-                                </div>
-                            </div>
+
                         </div>
                         
                         <table-user 
-                            ref="tablerenstra" 
-                            :datarangeyear = "chooseRangeYear"
-                            :datainstansi="chooseInstansi" 
-                            v-on:send-data="getDataDocument"
-                            v-on:send-jenisform="getJenisDocumentForm"
+                            ref="tableuser" 
+                            v-on:user-data="chooseUser"
                         />   
 
                     </div>
@@ -65,11 +52,7 @@
         <div class="row">
                 <!-- Custom Tabs -->
                 <detail-user 
-                        :datainstansi="chooseInstansi" 
-                        :datadocument="chooseDocument"                       
-                        :jenisdokumen="jenis_document"                        
-                        v-on:send-data="finishProsesVerifikasi"
-                        v-on:send-jenisform="getJenisDocumentForm"
+                        :userdata="chooseUserData"               
                         v-on:back-data="backtoTable"
                         > 
                 </detail-user>

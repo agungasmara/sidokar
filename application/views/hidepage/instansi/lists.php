@@ -1,6 +1,6 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper" id="app">
-
+    <input type="hidden" id="instansi" value="<?=$instansi?>">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1 v-if="nama_instansi">
@@ -44,7 +44,7 @@
                         </div>
                         
                         <table-instansi 
-                            ref="'tableInstansi'" 
+                            ref="tableInstansi" 
                             v-on:send-data="getDatachooseInstansi"
                             v-on:send-jenisform="getJenisForm"
                         />   

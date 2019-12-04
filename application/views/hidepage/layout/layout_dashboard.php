@@ -132,11 +132,20 @@
                   <?php
                   //Role PETUGAS 
                   if($this->user->loggedin && isset($this->user->info->user_role_id) &&
-                     ($this->user->info->admin_settings || $this->user->info->admin_members || $this->user->info->admin_payment)
+                     ($this->user->info->admin ||  $this->user->info->admin_payment)
                      
                      ) : ?>                  
-                     <li class="<?php if(isset($activeLink['settings']['general'])) echo "active" ?>"><a href="<?php echo site_url("hideend/pengajuan/") ?>"><span class="glyphicon glyphicon-cog sidebar-icon"></span> Pengajuan PSP BMN</a></li> 
-                     <li class="<?php if(isset($activeLink['settings']['general'])) echo "active" ?>"><a href="<?php echo site_url("hideend/pengajuan/status") ?>"><span class="glyphicon glyphicon-cog sidebar-icon"></span>Status Pengajuan PSP BMN</a></li>
+                     <li class="<?php if(isset($activeLink['settings']['general'])) echo "active" ?>"><a href="<?php echo site_url("hideend/userapp/lists") ?>"><span class="glyphicon glyphicon-cog sidebar-icon"></span> Manajemen User</a></li> 
+                     <li class="<?php if(isset($activeLink['settings']['general'])) echo "active" ?>"><a href="<?php echo site_url("hideend/instansi/lists") ?>"><span class="glyphicon glyphicon-cog sidebar-icon"></span>Manajemen Document</a></li>
+
+                  <?php endif; ?>
+
+                  <?php 
+                  if($this->user->loggedin && isset($this->user->info->user_role_id) &&
+                     ($this->user->info->admin_members )
+                     
+                     ) : ?>                  
+                     <li class="<?php if(isset($activeLink['settings']['general'])) echo "active" ?>"><a href="<?php echo site_url("hideend/instansi/lists") ?>"><span class="glyphicon glyphicon-cog sidebar-icon"></span>Manajemen Document</a></li>
 
                   <?php endif; ?>
 

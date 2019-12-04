@@ -7,29 +7,24 @@
                             <table class="table is-bordered is-hoverable">
                                 <thead class="text-white bg-dark">
                                     <th class="text-white">ID</th>
-                                    <th class="text-white">Dokumen</th>
-                                    <th class="text-white">Tahun</th>
-                                    <th class="text-white">Softcopy</th>
-                                    <th class="text-white">Hardcopy</th>
+                                    <th class="text-white">Full Name</th>
+                                    <th class="text-white">NIP</th>
+                                    <th class="text-white">Assign</th>
                                     <th class="text-white">Action</th>
                                 </thead>
                                 <tbody class="table-light">
-                                    <tr v-for="(data, index) in pegawai" class="table-default">
+                                    <tr v-for="(data, index) in user" class="table-default">
                                         <td style="padding-left:0px">{{index+1}}</td>
-                                        <td style="padding-left:0px">{{data.nama}}</td> 
-                                        <td style="padding-left:0px">{{data.periode_start}}</td> 
-                                        <td style="padding-left:0px" v-if="parseInt(data.softcopy)">Ada</td> 
-                                        <td style="padding-left:0px" v-else>Tidak Ada</td> 
-                                        <td style="padding-left:0px" v-if="parseInt(data.hardcopy)">Ada</td> 
-                                        <td style="padding-left:0px" v-else>Tidak Ada</td> 
+                                        <td style="padding-left:0px">{{data.fullname}}</td> 
+                                        <td style="padding-left:0px">{{data.nip}}</td> 
+                                        <td style="padding-left:0px">{{data.nama_instansi}}</td> 
                                         <td>
 
                                             <button type="button" 
                                                     class="btn btn-info" 
-                                                    @click=
-                                                        "selectinstansi(data);getDatachooseInstansi();selectJenisForm(data.hasil_verifikasi);getJenisDocumentForm()">
+                                                    @click="selectUser(data);getDetailUser()">
 
-                                                View Details
+                                                Assign User
                                             </button>
 
                                             

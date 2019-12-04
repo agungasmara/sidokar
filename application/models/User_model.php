@@ -4,15 +4,17 @@ class User_Model extends CI_Model
 {
 
 
-  	public function showAll($idinstansi,$tipeUser=''){
+  	public function showAll($id_role=''){
         $query = $this->db
-                 ->select('*');
+                 ->select('u.id id, u.fullname,u.nip, u.jabatan ,i.nama nama_instansi, i.id id_instansi');
 
-        $query = $query->from('users');
-        if($tipeUser!==''){
-            $query = $query->where('user_role',$tipeUser);
+        $query = $query->from('users u');
+        if($id_role!==''){
+            $query = $query->where('u.user_role',$id_role);
         }
-        $query = $query->get();
+        $query = $query
+        		->join('instansi i','i.id=u.assign','left' )
+        		->get();
                       
         if($query->num_rows() > 0){
             return $query->result();
@@ -223,6 +225,8 @@ class User_Model extends CI_Model
 
 	public function update_user($userid, $data) {
 		$this->db->where("ID", $userid)->update("users", $data);
+		
+		return true;
 	}
 
 	public function check_block_ip() 

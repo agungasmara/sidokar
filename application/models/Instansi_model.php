@@ -73,40 +73,17 @@ class Instansi_model extends CI_Model
     } 
 
 
-    public function showAllbyProsesID($prosesID=''){
-        $status = array('DJKN Pusat', 'PKNSI');
-        $query = $this->db
-              ->select('p.*,
-                        v.hasil_verifikasi,
-                        v.suratHasilVerifikasifinal,
-                        v.daftarKekuranganData,
-                        v.rencana_survey,
-                        v.nama_survey,
-                        v.cp_survey')
-              ->where_not_in('status_proses',$status);
-        if($prosesID!==''){                 
-              $query = $query->where('prosesid',$prosesID);
-        } 
 
-        $query = $query->order_by('id', 'DESC')
-                      ->from('pengajuan_pspbmn p')
-                      ->join('verifikasi_pspbmn v', 'p.id = v.idPengajuan', 'left')
-                      ->get();
-                      
-        if($query->num_rows() > 0){
-            return $query->result();
-        }else{
-            return false;
-        }
-    } 
-
-
-  public function showAll(){
+  public function showAll($idInstansi=""){
         $query = $this->db
                  ->select('*');
 
-        $query = $query->from('instansi')
-                       ->get();
+
+        $query = $query->from('instansi');
+        if($idInstansi!==""){
+          $query = $query->where("id",$idInstansi);
+        }
+        $query = $query->get();
                       
         if($query->num_rows() > 0){
             return $query->result();
@@ -115,18 +92,7 @@ class Instansi_model extends CI_Model
         }
     }
 
-    public function showAllbyID($idPengajuan){
-		$status = array('DJKN Pusat', 'PKNSI');
-      	$query = $this->db
-       				->where('id',$idPengajuan)
-       				->where_not_in('status_proses',$status)
-       				->get('pengajuan_pspbmn');
-        if($query->num_rows() > 0){
-            return $query->result();
-        }else{
-            return false;
-        }
-    }
+    
 
 	
 }
