@@ -5,7 +5,7 @@
 		'smtp_host' => 'smtp.gmail.com',
 		'smtp_port' => 465,
 		'smtp_user' => 'sidokar@gmail.com',
-		'smtp_pass' => 'pass2login',
+		'smtp_pass' => 'sidokar2019',
 		'mailtype' => 'html',
 		'charset' => 'iso-8859-1',
 		'smtp_timeout' => 30,
