@@ -11,8 +11,8 @@
                                     <th class="text-white">Action</th>
                                 </thead>
                                 <tbody class="table-light">
-                                    <tr v-for="data in instansi" class="table-default">
-                                        <td>{{data.id}}</td>
+                                    <tr v-for="(data,idx) in instansi" class="table-default">
+                                        <td>{{idx+1}}</td>
                                         <td>{{data.nama}}</td> 
                                         <td>
 

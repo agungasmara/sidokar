@@ -458,13 +458,12 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection'] = false;
+$config['csrf_protection'] = true;
 $config['csrf_token_name'] = 'cs_number';
 $config['csrf_cookie_name'] = 'cs_cookie';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = true;
-$config['csrf_exclude_uris'] = array('hideend/registrasit', 'hideend/invoice/view', 'hideend/IPN/processDode','hideend/IPN/process2', 'hideend/funds');
-
+$config['csrf_exclude_uris'] = array('hideend/registrasit', 'hideend/invoice/view', 'hideend/IPN/processDode','hideend/IPN/process2', 'hideend/funds','hideend/instansi/[\s\S]*','hideend/renja/[\s\S]*','hideend/renstra/[\s\S]*','hideend/userapp/[\s\S]*');
 
 /*
 |--------------------------------------------------------------------------

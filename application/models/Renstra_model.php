@@ -9,6 +9,10 @@ class Renstra_model extends CI_Model
     //echo "<pre>"; print_r($this->db->last_query());
     return true ;
 	}
+  public function remove_document($id) 
+  {
+    $this->db->where("id", $id)->delete("dokumen_renstra");
+  }
 
   public function insertDocument($data) 
   {

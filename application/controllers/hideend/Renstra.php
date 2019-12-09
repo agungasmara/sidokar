@@ -21,6 +21,26 @@ class Renstra extends CI_Controller
 		}
 	}
 
+
+    public function remove_document($id){
+        //$id = $this->input->post('id');  
+
+
+   
+        if ($this->renstra_model->remove_document($id)) {
+                $result['error'] = false;
+                $result['msg']   = 'Delete Document Sukses!';
+               
+        }else{
+                
+            $result['error'] = false;
+            $result['msg']   = 'Delete Document Error';
+        }
+            
+        echo json_encode($result);
+
+    }
+
     public function showAll($idinstansi,$startYear='',$endYear=''){
 
         $query =  $this->renstra_model->showAll($idinstansi,$startYear,$endYear);

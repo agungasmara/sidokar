@@ -45,6 +45,21 @@ tableRenstra = {
                 this.showAll(this.datainstansi.id)
             },
             methods:{
+
+                    deleteDocument(data){
+                        console.log(data)
+                        self = this
+                        link = this.url+"/hideend/renstra/remove_document/"+data.id
+                        axios.post(link).then(function(response){
+                                 if(response.data.error){
+                                        console.log("error show all")
+                                        self.emptyResult=true
+                                    }else{
+                                        self.dokumen = []
+                                        self.showAll(data.id_instansi)
+                                    }
+                            })  
+                    },         
                     gotoEditData(id){
                         window.location.href = myUrl + 'hideend/instansi/index/'+id;  
                     },
@@ -135,6 +150,20 @@ tableRenja = {
                 this.showAll(this.datainstansi.id)
             },
             methods:{
+
+                    deleteDocument(data){
+                        console.log(data)
+                        self = this
+                        link = this.url+"/hideend/renja/remove_document/"+data.id
+                        axios.post(link).then(function(response){
+                                 if(response.data.error){
+                                        console.log("error show all")
+                                        self.emptyResult=true
+                                    }else{
+                                        self.showAll(data.id_instansi)
+                                    }
+                            })  
+                    },    
 
                     selectJenisForm(jenisForm){
                             this.jenisForm = "renja"
@@ -238,6 +267,7 @@ tableInstansi = {
                 this.showAll()
             },
             methods:{
+
                     gotoEditData(id){
                         window.location.href = myUrl + 'hideend/instansi/index/'+id;  
                     },

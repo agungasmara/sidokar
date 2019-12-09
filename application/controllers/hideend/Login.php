@@ -583,8 +583,9 @@ class Login extends CI_Controller
 		}
 	}
 
-	public function logout($hash)
+	public function logout($hash="")
 	{
+		//echo "<pre>"; print_r($this->security->get_csrf_hash());die;
 		$this->template->set_error_view("hidepage/error/login_error.php");
 		$config = $this->config->item("cookieprefix");
 		$this->load->helper("cookie");

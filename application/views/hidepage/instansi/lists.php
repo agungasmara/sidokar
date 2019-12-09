@@ -25,17 +25,12 @@
                     <!-- quick email widget -->
                     <div class="box box-info">
                         <div class="box-header">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <h3 class="box-title">Nama Instansi</h3>
                             </div>
-                            <div class="col-md-6">
-                                <div class="input-group" style="width: 100%!important;">
-                                    <input style="width: 100%!important" type="text" class="form-control" placeholder="Search" id="form-search-input">
-                                </div>
-                            </div>
                            
-                            <div class="col-md-2">
-                                <div class="pull-left">
+                            <div class="col-md-1" style="margin-right: 5px">
+                                <div class="pull-right">
                                     <a href="<?php echo site_url("/hideend/instansi/") ?>" class="btn btn-primary">
                                         Add Instansi
                                     </a>

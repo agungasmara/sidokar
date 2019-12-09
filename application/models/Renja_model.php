@@ -12,7 +12,10 @@ class Renja_model extends CI_Model
 
 
 
-
+  public function remove_document($id) 
+  {
+    $this->db->where("id", $id)->delete("dokumen_renja");
+  }
 
   public function showAll($idinstansi,$startYear='',$endYear=''){
         $query = $this->db

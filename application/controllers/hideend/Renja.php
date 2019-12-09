@@ -32,6 +32,21 @@ class Renja extends CI_Controller
     }
 
 
+    public function remove_document($id){
+        //$id = $this->input->post('id');  
+
+        $query = $this->renja_model->remove_document($id);
+        // echo "<pre>"; print_r($this->db->last_query());die;
+
+   
+       
+        $result['error'] = false;
+        $result['msg']   = 'Delete Document Sukses!';
+        
+            
+        echo json_encode($result);
+
+    }
     public function insert_document()
     {   
 

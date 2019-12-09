@@ -31,6 +31,13 @@
 
                                                 View Details
                                             </button>
+                                             <button type="button" 
+                                                    class="btn btn-info" 
+                                                    @click=
+                                                        "deleteDocument(data);">
+
+                                                Delete
+                                            </button>
 
                                             
                                         </td>
