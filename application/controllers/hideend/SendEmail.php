@@ -18,7 +18,7 @@ class SendEmail extends CI_Controller
         $dataEmail = $this->pengajuan_model->get_emailQueue();
         foreach ($dataEmail->result() as $res) {
            //SEND ke CUSTOMER
-            $replayto             = "aplikasiapuse@gmail.com";
+            $replayto             = "sidokar.bappedadanlitbang@gmail.com";
             $emailCustomer = $res->email_send;
             $body = $res->message;
             $subject = $res->subject;
