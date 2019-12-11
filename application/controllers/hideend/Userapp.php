@@ -88,9 +88,9 @@ class Userapp extends CI_Controller
 
 
 
-	public function showAll(){
+	public function showAll($txtSearch=''){
 		$id_role = 5;//member role;
-       	$query =  $this->user_model->showAll($id_role);
+       	$query =  $this->user_model->showAll($id_role,$txtSearch);
        	$result = [];
         if($query){
             $result['user'] = $query;

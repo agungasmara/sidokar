@@ -102,10 +102,10 @@ class Instansi extends CI_Controller
 
 
 
-	public function showAll($idInstansi=''){
+	public function showAll($textSearch=''){
 
 		
-       	$query =  $this->instansi_model->showAll($idInstansi);
+       	$query =  $this->instansi_model->showAll($textSearch);
        	$result = [];
         if($query){
             $result['instansi'] = $query;

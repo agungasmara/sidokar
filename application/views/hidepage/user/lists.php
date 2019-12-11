@@ -26,7 +26,11 @@
                             <div class="col-md-4">
                                 <h3 class="box-title">User List</h3>
                             </div>
-                                                    
+                            <div class="col-xs-8">
+                                <div class="">
+                                    <input placeholder="Search"type="search" class="form-control" v-model="textSearch" @keyup="searchUser()" name="search">
+                                </div>
+                            </div>                       
 
 
                         </div>

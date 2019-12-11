@@ -267,17 +267,23 @@ tableInstansi = {
                 this.showAll()
             },
             methods:{
-
-                    gotoEditData(id){
-                        window.location.href = myUrl + 'hideend/instansi/index/'+id;  
-                    },
+                     //START SEARCH
                     refresh(){
-                        this.showAll(); //for preventing
+                        this.showAll(this.textSearch); //for preventing
                     },
-                    showAll(){ 
+
+                    showAll(textSearch){    
+                        if(typeof textSearch === "undefined"){
+                            this.textSearch = ""
+                        }else{
+                            this.textSearch = textSearch
+                        }
+
+                        console.log(textSearch)
                         let self = this
-                        axios.post(this.url+"/hideend/instansi/showAll").then(function(response){
+                        axios.post(this.url+"/hideend/instansi/showAll/"+this.textSearch).then(function(response){
                                  if(response.data.instansi == null){
+                                        self.instansi = []
                                         console.log("error show all")
                                     }else{
                                         self.getData(response.data.instansi);
@@ -291,6 +297,7 @@ tableInstansi = {
                         
                          // if the record is empty, go back a page
                         if(this.instansi.length == 0 && this.currentPage > 0){ 
+                            console.log("if the record is empty, go back a page")
                             this.pageUpdate(self.currentPage - 1)
                             this.clearAll();  
                         }
@@ -298,6 +305,12 @@ tableInstansi = {
                     pageUpdate(pageNumber){
                         this.currentPage = pageNumber; //receive currentPage number came from pagination template
                         this.refresh()  
+                    },//END SEARCH
+                    gotoEditData(id){
+                        window.location.href = myUrl + 'hideend/instansi/index/'+id;  
+                    },
+                    refresh(){
+                        this.showAll(); //for preventing
                     },
                     selectinstansi(data){
                         this.chooseInstansi = data
@@ -665,7 +678,8 @@ var v = new Vue({
         nama_instansi: "",
         jenis_document: "",
         chooseDocument:{},
-        chooseRangeYear:{}
+        chooseRangeYear:{},
+        textSearch:"",
 
     },    
     created(){
@@ -674,7 +688,9 @@ var v = new Vue({
 
     methods: {
 
-
+        searchInstansi(){
+             this.$refs.tableInstansi.showAll(this.textSearch)
+        },
         showInstansi(id){ 
             let self = this
             axios.post(this.url+"/hideend/instansi/showAll/"+id).then(function(response){

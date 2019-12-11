@@ -28,7 +28,11 @@
                             <div class="col-md-2">
                                 <h3 class="box-title">Nama Instansi</h3>
                             </div>
-                           
+                            <div class="col-xs-7">
+                                <div class="">
+                                    <input placeholder="Search"type="search" class="form-control" v-model="textSearch" @keyup="searchInstansi()" name="search">
+                                </div>
+                            </div>
                             <div class="col-md-1" style="margin-right: 5px">
                                 <div class="pull-right">
                                     <a href="<?php echo site_url("/hideend/instansi/") ?>" class="btn btn-primary">

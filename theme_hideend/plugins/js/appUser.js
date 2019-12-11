@@ -22,7 +22,7 @@ if(myUrl.includes("localhost")){
 
 
 // Table
-userTable = {
+tableuser = {
             template: '#userTable',
             props: [],
             data() {
@@ -46,20 +46,30 @@ userTable = {
                 this.showAll()
             },
             methods:{
-                    showAll(){ 
+
+
+                     //START SEARCH
+                    refresh(){
+                        this.showAll(this.textSearch); //for preventing
+                    },
+
+                    showAll(textSearch){    
+                        if(typeof textSearch === "undefined"){
+                            this.textSearch = ""
+                        }else{
+                            this.textSearch = textSearch
+                        }
+
+                        console.log(textSearch)
                         let self = this
-                        let link = this.url+"/hideend/userapp/showAll"
-                        this.user={}
-                        axios.post(link).then(function(response){
-                            //console.table(response.data.user)
+                        axios.post(this.url+"/hideend/userapp/showAll/"+this.textSearch).then(function(response){
                                  if(response.data.user == null){
+                                        self.user = []
                                         console.log("error show all")
-                                        self.emptyResult=true
                                     }else{
                                         self.getData(response.data.user);
                                     }
-                            })  
-                      
+                        })
                     },
                     getData(user){
                         this.emptyResult = false; // become false if has a record
@@ -68,6 +78,7 @@ userTable = {
                         
                          // if the record is empty, go back a page
                         if(this.user.length == 0 && this.currentPage > 0){ 
+                            console.log("if the record is empty, go back a page")
                             this.pageUpdate(self.currentPage - 1)
                             this.clearAll();  
                         }
@@ -75,7 +86,7 @@ userTable = {
                     pageUpdate(pageNumber){
                         this.currentPage = pageNumber; //receive currentPage number came from pagination template
                         this.refresh()  
-                    },
+                    },//END SEARCH                   
                     selectDocumentRenstra(data){
                         this.chooseDocumentRenstra = data
                     },
@@ -236,7 +247,7 @@ detailUser =  {
 var v = new Vue({
     el: '#app',
     components: {
-        'table-user': userTable,
+        'table-user': tableuser,
         'detail-user':detailUser,
         vuejsDatepicker
     },
@@ -245,12 +256,16 @@ var v = new Vue({
         showUserTable:true,
         showUserForm:false,
         chooseInstansi:{},
-        chooseUserData:{}
+        chooseUserData:{},
+        textSearch:""
    
 
     },
 
     methods: {
+        searchUser(){
+            this.$refs.tableuser.showAll(this.textSearch)
+        },
         showTable(){
             this.showUserTable=true
             this.showUserForm=false

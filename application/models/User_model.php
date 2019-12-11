@@ -4,13 +4,16 @@ class User_Model extends CI_Model
 {
 
 
-  	public function showAll($id_role=''){
+  	public function showAll($id_role='',$txtSearch=''){
         $query = $this->db
                  ->select('u.id id, u.fullname,u.nip, u.jabatan ,i.nama nama_instansi, i.id id_instansi');
 
         $query = $query->from('users u');
         if($id_role!==''){
             $query = $query->where('u.user_role',$id_role);
+        }
+        if($txtSearch!==''){
+            $query = $query->like('u.fullname',$txtSearch);
         }
         $query = $query
         		->join('instansi i','i.id=u.assign','left' )
