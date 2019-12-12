@@ -695,8 +695,6 @@ var v = new Vue({
             let self = this
             axios.post(this.url+"/hideend/instansi/showAll/"+id).then(function(response){
 
-                console.log("response.data.instansi[0]")
-                console.log(response.data.instansi[0])
                 if(response.data.instansi === null){
                     console.log("error show instansi")
                 }else{
