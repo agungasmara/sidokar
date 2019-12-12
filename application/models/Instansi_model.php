@@ -74,12 +74,15 @@ class Instansi_model extends CI_Model
 
 
 
-  public function showAll($textSearch=""){
+  public function showAll($idInstansi="",$textSearch=""){
         $query = $this->db
                  ->select('*');
 
 
         $query = $query->from('instansi');
+        if($idInstansi!==""){
+          $query = $query->where("id",$idInstansi);
+        }
         if($textSearch!==""){
           $query = $query->like("nama",$textSearch);
         }
