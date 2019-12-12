@@ -103,9 +103,12 @@ class Instansi extends CI_Controller
 
 
 	public function showAll($textSearch=''){
+        if($textSearch!=''){            
+           $textSearch = urldecode($textSearch);
+        }
 
-		
        	$query =  $this->instansi_model->showAll($textSearch);
+        //echo "<pre>"; print_r($this->db->last_query());
        	$result = [];
         if($query){
             $result['instansi'] = $query;

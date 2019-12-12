@@ -90,6 +90,9 @@ class Userapp extends CI_Controller
 
 	public function showAll($txtSearch=''){
 		$id_role = 5;//member role;
+        if($textSearch!=''){            
+           $textSearch = urldecode($textSearch);
+        }
        	$query =  $this->user_model->showAll($id_role,$txtSearch);
        	$result = [];
         if($query){
