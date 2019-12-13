@@ -94,6 +94,10 @@ class Login extends CI_Controller
     		}
     	}
 
+    	if($r->assign===0) {
+    			$this->template->error(lang("error_113"));
+    	}
+
     	//login
     	if($this->settings->info->secure_login) {
 			// Generate a token

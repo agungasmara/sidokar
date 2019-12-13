@@ -116,4 +116,5 @@ $lang['error_109'] = "date format error";
 $lang['error_110'] = "Jabatan cannot be empty!";
 $lang['error_111'] = "NIP cannot be empty!";
 $lang['error_112'] = "Phone cannot be empty!";
+$lang['error_113'] = "Akun anda belum di assign oleh admin";
 ?>
