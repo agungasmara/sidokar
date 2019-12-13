@@ -93,9 +93,10 @@ class Login extends CI_Controller
     				"'>".lang("error_73") ."</a> " . lang("error_74"));
     		}
     	}
-
-    	if($r->assign===0) {
+    	// /echo "<pre>"; print_r($r->assign);die;
+    	if($r->assign==0) {
     			$this->template->error(lang("error_113"));
+    			//echo "<pre>"; print_r("die");die;    			redirect(site_url(urldecode($redirect)));
     	}
 
     	//login
