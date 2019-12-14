@@ -94,7 +94,7 @@ class Login extends CI_Controller
     		}
     	}
     	// /echo "<pre>"; print_r($r->assign);die;
-    	if($r->assign==0) {
+    	if($r->assign==0 && ($r->ID !=1)) {
     			$this->template->error(lang("error_113"));
     			//echo "<pre>"; print_r("die");die;    			redirect(site_url(urldecode($redirect)));
     	}
